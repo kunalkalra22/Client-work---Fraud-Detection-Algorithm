@@ -1,0 +1,372 @@
+//SKU_Table:
+//LOAD transaction_membershipid, 
+//     transaction_id, 
+//     //total_spends, 
+//     transaction_date 
+////     member_cardNumber, 
+////     paymentTypeCode, 
+////     member_creationDate_modified, 
+////     Enrolment_Channel, 
+////     visit_rank
+//FROM
+//[D:\XYZ July Deck\SKU_till_31July_with_checks_visit_rank.qvd]
+//(qvd)
+//where transaction_date>='01-04-2019' and transaction_date<='31-07-2019'
+//;
+//
+//
+//FOR i=0 to 106  
+//
+//Rolling_15_days:
+//LOAD date('01-04-2019'+1*$(i)) as Start_date,
+//	 date('01-04-2019'+1*$(i)+14) as End_date,
+//	 transaction_membershipid,
+//	 count(DISTINCT transaction_id) as Transactions_in_15_days 
+//
+//Resident
+//SKU_Table 
+//
+//Where transaction_date>=date('01-04-2019'+1*$(i)) and transaction_date<=date('01-04-2019'+1*$(i)+14)
+//
+//Group by transaction_membershipid
+//;
+//
+//TRACE $(i);
+//NEXT i;
+//
+//Store Rolling_15_days into Rolling_15_days.qvd;
+//Drop table Rolling_15_days;
+//
+//
+//FOR i=0 to 91  
+//
+//Rolling_30_days:
+//LOAD date('01-04-2019'+1*$(i)) as Start_date,
+//	 date('01-04-2019'+1*$(i)+29) as End_date,
+//	 transaction_membershipid,
+//	 count(DISTINCT transaction_id) as Transactions_in_15_days 
+//
+//Resident
+//SKU_Table 
+//
+//Where transaction_date>=date('01-04-2019'+1*$(i)) and transaction_date<=date('01-04-2019'+1*$(i)+29)
+//
+//Group by transaction_membershipid
+//;
+//
+//TRACE $(i);
+//NEXT i;
+//
+//Store Rolling_30_days into Rolling_30_days.qvd;
+//Drop table Rolling_30_days;
+//
+//
+//FOR i=0 to 76  
+//
+//Rolling_45_days:
+//LOAD date('01-04-2019'+1*$(i)) as Start_date,
+//	 date('01-04-2019'+1*$(i)+44) as End_date,
+//	 transaction_membershipid,
+//	 count(DISTINCT transaction_id) as Transactions_in_15_days 
+//
+//Resident
+//SKU_Table 
+//
+//Where transaction_date>=date('01-04-2019'+1*$(i)) and transaction_date<=date('01-04-2019'+1*$(i)+44)
+//
+//Group by transaction_membershipid
+//;
+//
+//TRACE $(i);
+//NEXT i;
+//
+//Store Rolling_45_days into Rolling_45_days.qvd;
+//Drop table Rolling_45_days;
+//
+//
+//FOR i=0 to 61  
+//
+//Rolling_60_days:
+//LOAD date('01-04-2019'+1*$(i)) as Start_date,
+//	 date('01-04-2019'+1*$(i)+59) as End_date,
+//	 transaction_membershipid,
+//	 count(DISTINCT transaction_id) as Transactions_in_15_days 
+//
+//Resident
+//SKU_Table 
+//
+//Where transaction_date>=date('01-04-2019'+1*$(i)) and transaction_date<=date('01-04-2019'+1*$(i)+59)
+//
+//Group by transaction_membershipid
+//;
+//
+//TRACE $(i);
+//NEXT i;
+//
+//Store Rolling_60_days into Rolling_60_days.qvd;
+//Drop table Rolling_60_days;
+//
+//
+//FOR i=0 to 46  
+//
+//Rolling_75_days:
+//LOAD date('01-04-2019'+1*$(i)) as Start_date,
+//	 date('01-04-2019'+1*$(i)+74) as End_date,
+//	 transaction_membershipid,
+//	 count(DISTINCT transaction_id) as Transactions_in_15_days 
+//
+//Resident
+//SKU_Table 
+//
+//Where transaction_date>=date('01-04-2019'+1*$(i)) and transaction_date<=date('01-04-2019'+1*$(i)+74)
+//
+//Group by transaction_membershipid
+//;
+//
+//TRACE $(i);
+//NEXT i;
+//
+//Store Rolling_75_days into Rolling_75_days.qvd;
+//Drop table Rolling_75_days;
+//
+//Drop table SKU_Table;
+
+
+//SKU_till_31July_with_checks_visit_rank_and_visit_date:
+//LOAD transaction_membershipid, 
+//     transaction_id, 
+//     transactionItem_lineItemCount, 
+//     transactionItem_itemid, 
+//     transactionItem_movieid, 
+//     transactionItem_quantity, 
+//     transactionItem_spend, 
+//     transactionItem_sessionTime, 
+//     transactionItem_recognitionid, 
+//     transactionItem_tax, 
+//     total_spends, 
+//     transactionItem_discountValue, 
+//     transactionItem_redemptionTax, 
+//     transactionItem_redemptionValue, 
+//     transactionItem_cinemaOperator, 
+//     transactionItem_exported, 
+//     transactionItem_exportedDate, 
+//     transactionItem_format, 
+//     transaction_complexid, 
+//     transaction_time, 
+//     transaction_date, 
+//     member_cardNumber, 
+//     paymentTypeCode, 
+//     member_creationDate_modified, 
+//     Enrolment_Channel, 
+//     visit_rank,
+//     transaction_membershipid&visit_rank as Key
+//FROM
+//[D:\XYZ July Deck\SKU_till_31July_with_checks_visit_rank.qvd]
+//(qvd);
+//
+//left join
+//
+//Load transaction_membershipid&visit_rank as Key,
+//	 date(max(transaction_date)) as Visit_date
+//FROM
+//[D:\XYZ July Deck\SKU_till_31July_with_checks_visit_rank.qvd]
+//(qvd)
+//
+//Group by transaction_membershipid&visit_rank;
+//
+//Store SKU_till_31July_with_checks_visit_rank_and_visit_date into SKU_till_31July_with_checks_visit_rank_and_visit_date.qvd;
+
+
+
+//LOAD Visit_date, 
+//     transaction_membershipid, 
+//     count(distinct transaction_id) as Transactions_in_15_days
+//    
+//FROM
+//[D:\XYZ July Deck\SKU_till_31July_with_checks_visit_rank_and_visit_date.qvd]
+//(qvd)
+//
+//where Visit_date>='01-04-2019' and Visit_date<='31-07-2019'
+//
+//Group by Visit_date, transaction_membershipid;
+
+
+
+
+
+
+
+
+
+///$tab Fraud Analysis
+//SKU_Table:
+//LOAD transaction_membershipid, 
+//     transaction_id, 
+//     total_spends, 
+//     transaction_date,
+//     Visit_date,
+//     transaction_complexid
+//FROM
+//[D:\XYZ July Deck\SKU_till_31July_with_checks_visit_rank_and_visit_date.qvd]
+//(qvd)
+//where transaction_date>='01-02-2019' and transaction_date<='31-07-2019'
+//and (transaction_complexid<>'' or len(transaction_complexid)>0);
+//
+//
+//Daily_Fraud_Parameters:
+//Load transaction_complexid,
+//	 transaction_membershipid,
+//	 Visit_date,
+//	 count(DISTINCT transaction_id) as Transactions,
+//	 sum(total_spends) as Spends_in_one_visit
+//Resident
+//SKU_Table
+//Group by Visit_date, transaction_complexid, transaction_membershipid
+//;
+//
+//Store Daily_Fraud_Parameters into Daily_Fraud_Parameters.qvd;
+//
+//Drop table Daily_Fraud_Parameters;
+//
+//
+//FOR i=0 to 174
+//
+//Weekly_Fraud_Parameters:
+//LOAD date('01-02-2019'+1*$(i)) as Start_date,
+//	 date('01-02-2019'+1*$(i)+6) as End_date,
+//	 transaction_complexid,
+//	 transaction_membershipid,
+//	 count(DISTINCT transaction_id) as Transactions_in_7_days,
+//	 sum(total_spends) as Spends_in_one_week
+//
+//Resident
+//SKU_Table 
+//
+//Where transaction_date>=date('01-02-2019'+1*$(i)) and transaction_date<=date('01-02-2019'+1*$(i)+6)
+//
+//Group by transaction_complexid, transaction_membershipid;
+//
+//
+//TRACE $(i);
+//NEXT i;
+//
+//Store Weekly_Fraud_Parameters into Weekly_Fraud_Parameters.qvd;
+//
+//Drop table Weekly_Fraud_Parameters;
+//
+//
+//FOR i=0 to 151
+//
+//Monthly_Fraud_Parameters:
+//LOAD date('01-02-2019'+1*$(i)) as Start_date,
+//	 date('01-02-2019'+1*$(i)+29) as End_date,
+//	 transaction_complexid,
+//	 transaction_membershipid,
+//	 count(DISTINCT transaction_id) as Transactions_in_30_days,
+//	 sum(total_spends) as Spends_in_one_month
+//
+//Resident
+//SKU_Table 
+//
+//Where transaction_date>=date('01-02-2019'+1*$(i)) and transaction_date<=date('01-02-2019'+1*$(i)+29)
+//
+//Group by transaction_complexid, transaction_membershipid;
+//
+//
+//TRACE $(i);
+//NEXT i;
+//
+//Store Monthly_Fraud_Parameters into Monthly_Fraud_Parameters.qvd;
+//
+//Drop table Monthly_Fraud_Parameters;
+//
+//Drop table SKU_Table;
+
+
+//Daily_Distribution:
+//LOAD transaction_complexid, 
+//     transaction_membershipid, 
+//     Visit_date as Start_date, 
+//     Transactions,
+//     Spends_in_one_visit,
+//     Log(Transactions), 
+//     Log(Spends_in_one_visit)
+//FROM
+//[D:\Fraud Analysis Files\Daily_Fraud_Parameters.qvd]
+//(qvd)
+//where transaction_complexid<>'NULL' and transaction_complexid<>'\N';
+//
+//left join
+//
+//Load transaction_complexid,
+//	 Exp(Avg([Log(Transactions)])) as Average_Trxn,
+//	 Exp(Avg([Log(Transactions)])+StDev([Log(Transactions)])) as Mean_StdDev_Trxn,
+//	 Exp(Avg([Log(Transactions)])+2*StDev([Log(Transactions)])) as Mean_2StdDev_Trxn,
+//	 Exp(Avg([Log(Transactions)])+3*StDev([Log(Transactions)])) as Mean_3StdDev_Trxn,
+//	 Exp(Avg([Log(Spends_in_one_visit)])) as Average_Spends,
+//	 Exp(Avg([Log(Spends_in_one_visit)])+StDev([Log(Spends_in_one_visit)])) as Mean_StdDev_Spends,
+//	 Exp(Avg([Log(Spends_in_one_visit)])+2*StDev([Log(Spends_in_one_visit)])) as Mean_2StdDev_Spends,
+//	 Exp(Avg([Log(Spends_in_one_visit)])+3*StDev([Log(Spends_in_one_visit)])) as Mean_3StdDev_Spends
+//Resident 
+//Daily_Distribution
+//Group by transaction_complexid;
+
+
+//Weekly_Distribution:
+//LOAD Start_date, 
+//     End_date, 
+//     transaction_complexid, 
+//     transaction_membershipid,
+//     Transactions_in_7_days, 
+//     Spends_in_one_week, 
+//     Log(Transactions_in_7_days), 
+//     Log(Spends_in_one_week)
+//FROM
+//[D:\Fraud Analysis Files\Weekly_Fraud_Parameters.qvd]
+//(qvd)
+//where transaction_complexid<>'NULL' and transaction_complexid<>'\N';
+//
+//left join
+//
+//Load transaction_complexid,
+//	 Exp(Avg([Log(Transactions_in_7_days)])) as Average_Trxn,
+//	 Exp(Avg([Log(Transactions_in_7_days)])+StDev([Log(Transactions_in_7_days)])) as Mean_StdDev_Trxn,
+//	 Exp(Avg([Log(Transactions_in_7_days)])+2*StDev([Log(Transactions_in_7_days)])) as Mean_2StdDev_Trxn,
+//	 Exp(Avg([Log(Transactions_in_7_days)])+3*StDev([Log(Transactions_in_7_days)])) as Mean_3StdDev_Trxn,
+//	 Exp(Avg([Log(Spends_in_one_week)])) as Average_Spends,
+//	 Exp(Avg([Log(Spends_in_one_week)])+StDev([Log(Spends_in_one_week)])) as Mean_StdDev_Spends,
+//	 Exp(Avg([Log(Spends_in_one_week)])+2*StDev([Log(Spends_in_one_week)])) as Mean_2StdDev_Spends,
+//	 Exp(Avg([Log(Spends_in_one_week)])+3*StDev([Log(Spends_in_one_week)])) as Mean_3StdDev_Spends
+//Resident 
+//Weekly_Distribution
+//Group by transaction_complexid;
+
+
+Monthly_Distribution:
+LOAD Start_date, 
+     End_date, 
+     transaction_complexid, 
+     transaction_membershipid, 
+     Transactions_in_30_days, 
+     Spends_in_one_month,
+     Log(Transactions_in_30_days),
+     Log(Spends_in_one_month)
+FROM
+[D:\Fraud Analysis Files\Monthly_Fraud_Parameters.qvd]
+(qvd)
+where transaction_complexid<>'NULL' and transaction_complexid<>'\N';
+
+left join
+
+Load transaction_complexid,
+	 Exp(Avg([Log(Transactions_in_30_days)])) as Average_Trxn,
+	 Exp(Avg([Log(Transactions_in_30_days)])+StDev([Log(Transactions_in_30_days)])) as Mean_StdDev_Trxn,
+	 Exp(Avg([Log(Transactions_in_30_days)])+2*StDev([Log(Transactions_in_30_days)])) as Mean_2StdDev_Trxn,
+	 Exp(Avg([Log(Transactions_in_30_days)])+3*StDev([Log(Transactions_in_30_days)])) as Mean_3StdDev_Trxn,
+	 Exp(Avg([Log(Spends_in_one_month)])) as Average_Spends,
+	 Exp(Avg([Log(Spends_in_one_month)])+StDev([Log(Spends_in_one_month)])) as Mean_StdDev_Spends,
+	 Exp(Avg([Log(Spends_in_one_month)])+2*StDev([Log(Spends_in_one_month)])) as Mean_2StdDev_Spends,
+	 Exp(Avg([Log(Spends_in_one_month)])+3*StDev([Log(Spends_in_one_month)])) as Mean_3StdDev_Spends
+Resident 
+Monthly_Distribution
+Group by transaction_complexid;
